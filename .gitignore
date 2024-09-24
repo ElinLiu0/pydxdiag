@@ -1,0 +1,11 @@
+build/
+dist/
+pydxdiag/__pycache__/
+pydxdiag.egg-info/
+pydxdiag/functions/__pycache__/
+pydxdiag/functions/device/__pycache__/
+pydxdiag/functions/sz/__pycache__/
+pydxdiag/schema/__pycache__/
+pydxdiag/schema/device/__pycache__/
+pydxdiag/schema/sz/__pycache__/
+.pypirc
