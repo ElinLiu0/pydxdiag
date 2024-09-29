@@ -13,7 +13,7 @@ import sphinx_book_theme
 project = 'pydxdiag'
 copyright = '2024, Elin Liu'
 author = 'Elin Liu'
-release = '0.1.4.3'
+release = '0.1.5'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

@@ -2,9 +2,7 @@ from bs4 import BeautifulSoup
 from typing import *
 from pathlib import Path
 import subprocess
-
-import sys
-import os
+from pydantic import BaseModel, Field
 
 import pydxdiag.schema.DirectXDebugLevels
 import pydxdiag.schema.DxDiagNotes
@@ -49,9 +47,193 @@ import pydxdiag.functions.Filter as Filter
 import pydxdiag.functions.LogicalDisk as LogicalDisk
 import pydxdiag.functions.SystemInformation as SystemInformation
 import pydxdiag.functions.WER as WERFuncs
+import json
+
+class DxdiagDataTotal:
+    """
+    A class for storing the total dxdiag data\n
+    :params DirectInputDevices: The DirectInput devices
+    :types DirectInputDevices: List[DirectInputDevice.DirectInputDevice]
+    :params DisplayDevices: The Display devices
+    :types DisplayDevices: List[DisplayDevice.DisplayDevice]
+    :params InputRelatedDevicesViaUSBRoot: The Input Related devices via USB Root
+    :types InputRelatedDevicesViaUSBRoot: List[InputRelatedDevice.InputRelatedDevice]
+    :params InputRelatedDeviceViaPS2: The Input Related devices via PS2
+    :types InputRelatedDeviceViaPS2: List[InputRelatedDevice.InputRelatedDevice]
+    :params StatusForPollWithInterput: The status for Poll with Interrupt
+    :types StatusForPollWithInterput: bool
+    :params SoundCaptureDevices: The Sound Capture devices
+    :types SoundCaptureDevices: List[SoundCaptureDevice.SoundCaptureDevice]
+    :params SoundDevices: The Sound devices
+    :types SoundDevices: List[SoundDevice.SoundDevice]
+    :params SystemDevices: The System devices
+    :types SystemDevices: List[SystemDevice.SystemDevice]
+    :params VideoCaptureDevices: The Video Capture devices
+    :types VideoCaptureDevices: List[VideoCaptureDevice.VideoCaptureDevice]
+    :params BytesStreamHandlers: The Byte Stream Handlers
+    :types BytesStreamHandlers: List[szBytesStreamHandler.szBytesStreamHandler.szBytesStreamHandler]
+    :params StatufForEnableHardwareMFT: The status for Enable Hardware MFT
+    :types StatufForEnableHardwareMFT: bool
+    :params MFFileVersions: The MF File Versions
+    :types MFFileVersions: List[szMFFileVersion.szMFFileVersion.szMFFileVersion]
+    :params MFTs: The MFTs
+    :types MFTs: List[szMFT.szMFT.szMFT]
+    :params szPreferedMFTs: The Preferred MFTs
+    :types szPreferedMFTs: List[szPreferredMFT.szPreferredMFT.szPreferredMFT]
+    :params SchemeHandlers: The Scheme Handlers
+    :types SchemeHandlers: List[szSchemeHandlers.szSchemeHandlers.szSchemeHandlers]
+    :params EnvPowerInformation: The Environment Power Information
+    :types EnvPowerInformation: EvrPowerInformation
+    :params Filters: The Filters
+    :types Filters: List[Filter.Filter]
+    :params PreferredDShowFilters: The Preferred DShow Filters
+    :types PreferredDShowFilters: List[str]
+    :params LogicalDisks: The Logical Disks
+    :types LogicalDisks: List[LogicalDisk.LogicalDisk]
+    :params OSInformation: The OS Information
+    :types OSInformation: OSInformation
+    :params DirectXDebugLevels: The DirectX Debug Levels
+    :types DirectXDebugLevels: DirectXDebugLevels
+    :params DxDiagNotes: The DxDiag Notes
+    :types DxDiagNotes: List[GeneralDXDiagNotes]
+    :params MachineInformation: The Machine Information
+    :types MachineInformation: MachineInformation
+    :params SystemModelInformation: The System Model Information
+    :types SystemModelInformation: SystemModelInformation
+    :params FirmwareInformation: The Firmware Information
+    :types FirmwareInformation: FirmwareInformation
+    :params CPUInformation: The CPU Information
+    :types CPUInformation: CPUInformation
+    :params MemoryInformation: The Memory Information
+    :types MemoryInformation: MemoryInformation
+    :params GraphicsInfromation: The Graphics Information
+    :types GraphicsInfromation: GraphicsInformation
+    :params DXDiagInformation: The DXDiag Information
+    :types DXDiagInformation: DXDiagInformation
+    :params WERInfo: The WER Information
+    :types WERInfo: List[WERInformation]
+    """
+    def __init__(
+        self,
+        DirectInputDevices: List[DirectInputDevice.DirectInputDevice],
+        DisplayDevices: List[DisplayDevice.DisplayDevice],
+        InputRelatedDevicesViaUSBRoot: List[InputRelatedDevice.InputRelatedDevice],
+        InputRelatedDeviceViaPS2: List[InputRelatedDevice.InputRelatedDevice],
+        StatusForPollWithInterput: bool,
+        SoundCaptureDevices: List[SoundCaptureDevice.SoundCaptureDevice],
+        SoundDevices: List[SoundDevice.SoundDevice],
+        SystemDevices: List[SystemDevice.SystemDevice],
+        VideoCaptureDevices: List[VideoCaptureDevice.VideoCaptureDevice],
+        BytesStreamHandlers: List[pydxdiag.schema.sz.szBytesStreamHandler.szBytesStreamHandler],
+        StatufForEnableHardwareMFT: bool,
+        MFFileVersions: List[pydxdiag.schema.sz.szMFFileVersion.szMFFileVersion],
+        MFTs: List[pydxdiag.schema.sz.szMFT.szMFT],
+        szPreferedMFTs: List[szPreferredMFT.szPreferredMFT],
+        SchemeHandlers: List[szSchemeHandlers.szSchemeHandlers],
+        EnvPowerInformation: EnvPowerInformation.EvrPowerInformation,
+        Filters: List[Filter.Filter],
+        PreferredDShowFilters: List[str],
+        LogicalDisks: List[LogicalDisk.LogicalDisk],
+        OSInformation: SystemInformation.OSInformation,
+        DirectXDebugLevels: pydxdiag.schema.DirectXDebugLevels.DirectXDebugLevels,
+        DxDiagNotes: List[pydxdiag.schema.DxDiagNotes.GeneralDXDiagNotes],
+        MachineInformation: SystemInformation.MachineInformation,
+        SystemModelInformation: SystemInformation.SystemModelInformation,
+        FirmwareInformation: SystemInformation.FirmwareInformation,
+        CPUInformation: SystemInformation.CPUInformation,
+        MemoryInformation: SystemInformation.MemoryInformation,
+        GraphicsInfromation: SystemInformation.GraphicsInformation,
+        DXDiagInformation: SystemInformation.DXDiagInformation,
+        WERInfo: List[pydxdiag.schema.WER.WERInformation]
+    ) -> None:
+        self.DirectInputDevices = DirectInputDevices
+        self.DisplayDevices = DisplayDevices
+        self.InputRelatedDevicesViaUSBRoot = InputRelatedDevicesViaUSBRoot
+        self.InputRelatedDeviceViaPS2 = InputRelatedDeviceViaPS2
+        self.StatusForPollWithInterput = StatusForPollWithInterput
+        self.SoundCaptureDevices = SoundCaptureDevices
+        self.SoundDevices = SoundDevices
+        self.SystemDevices = SystemDevices
+        self.VideoCaptureDevices = VideoCaptureDevices
+        self.BytesStreamHandlers = BytesStreamHandlers
+        self.StatufForEnableHardwareMFT = StatufForEnableHardwareMFT
+        self.MFFileVersions = MFFileVersions
+        self.MFTs = MFTs
+        self.szPreferedMFTs = szPreferedMFTs
+        self.SchemeHandlers = SchemeHandlers
+        self.EnvPowerInformation = EnvPowerInformation
+        self.Filters = Filters
+        self.PreferredDShowFilters = PreferredDShowFilters
+        self.LogicalDisks = LogicalDisks
+        self.OSInformation = OSInformation
+        self.DirectXDebugLevels = DirectXDebugLevels
+        self.DxDiagNotes = DxDiagNotes
+        self.MachineInformation = MachineInformation
+        self.SystemModelInformation = SystemModelInformation
+        self.FirmwareInformation = FirmwareInformation
+        self.CPUInformation = CPUInformation
+        self.MemoryInformation = MemoryInformation
+        self.GraphicsInfromation = GraphicsInfromation
+        self.DXDiagInformation = DXDiagInformation
+        self.WERInfo = WERInfo
+    def model_dump(self) -> Dict[str, Any]:
+        """
+        Convert all the data into a dictionary\n
+        :return: The data as a dictionary
+        :rtype: Dict[str, Any]
+        """
+        return {
+            "DirectInputDevices": [x.model_dump() for x in self.DirectInputDevices],
+            "DisplayDevices": [x.model_dump() for x in self.DisplayDevices],
+            "InputRelatedDevicesViaUSBRoot": [x.model_dump() for x in self.InputRelatedDevicesViaUSBRoot],
+            "InputRelatedDeviceViaPS2": [x.model_dump() for x in self.InputRelatedDeviceViaPS2],
+            "StatusForPollWithInterput": self.StatusForPollWithInterput,
+            "SoundCaptureDevices": [x.model_dump() for x in self.SoundCaptureDevices],
+            "SoundDevices": [x.model_dump() for x in self.SoundDevices],
+            "SystemDevices": [x.model_dump() for x in self.SystemDevices],
+            "VideoCaptureDevices": [x.model_dump() for x in self.VideoCaptureDevices],
+            "BytesStreamHandlers": [x.model_dump() for x in self.BytesStreamHandlers],
+            "StatufForEnableHardwareMFT": self.StatufForEnableHardwareMFT,
+            "MFFileVersions": [x.model_dump() for x in self.MFFileVersions],
+            "MFTs": [x.model_dump() for x in self.MFTs],
+            "szPreferedMFTs": [x.model_dump() for x in self.szPreferedMFTs],
+            "SchemeHandlers": [x.model_dump() for x in self.SchemeHandlers],
+            "EnvPowerInformation": self.EnvPowerInformation.model_dump(),
+            "Filters": [x.model_dump() for x in self.Filters],
+            "PreferredDShowFilters": self.PreferredDShowFilters,
+            "LogicalDisks": [x.model_dump() for x in self.LogicalDisks],
+            "OSInformation": self.OSInformation.model_dump(),
+            "DirectXDebugLevels": self.DirectXDebugLevels.model_dump(),
+            "DxDiagNotes": [x.model_dump() for x in self.DxDiagNotes],
+            "MachineInformation": self.MachineInformation.model_dump(),
+            "SystemModelInformation": self.SystemModelInformation.model_dump(),
+            "FirmwareInformation": self.FirmwareInformation.model_dump(),
+            "CPUInformation": self.CPUInformation.model_dump(),
+            "MemoryInformation": self.MemoryInformation.model_dump(),
+            "GraphicsInfromation": self.GraphicsInfromation.model_dump(),
+            "DXDiagInformation": self.DXDiagInformation.model_dump(),
+            "WERInfo": [x.model_dump() for x in self.WERInfo]
+        }
+    def model_dump_json(self,save_path:str = None) -> Optional[str]:
+        """
+        Convert all the data into a JSON string\n
+        :param save_path: The path to save the JSON file
+        :type save_path: str
+        :return: The data as a JSON string
+        :rtype: Optional[str]
+        """
+        data:Dict[str,Any] = self.model_dump()
+        # Retriving all data and convert datetime object to string
+        data = json.dumps(data,default=str,indent=4,ensure_ascii=False)
+        if save_path:
+            with open(save_path,"w",encoding="utf-8") as f:
+                f.write(data)
+            f.close()
+        else:
+            return data
 
 
-class DxdiagParser:
+class DxdiagParser(DxdiagDataTotal):
     """
     Basic parser class for DirectX Diagnostic Tool output
     """
@@ -77,6 +259,42 @@ class DxdiagParser:
         f.close()
         # Removing the output file
         Path("dxdiag.xml").unlink()
+        super(DxdiagParser, self).__init__(
+            DirectInputDevices=self.GetDirectInputDevices(),
+            DisplayDevices=self.GetDisplayDevices(),
+            InputRelatedDevicesViaUSBRoot=self.GetInputRelatedDevicesViaUSBRoot(),
+            InputRelatedDeviceViaPS2=self.GetInputRelatedDeviceViaPS2(),
+            StatusForPollWithInterput=self.GetStatusForPollWithInterput(),
+            SoundCaptureDevices=self.GetSoundCaptureDevices(),
+            SoundDevices=self.GetSoundDevices(),
+            SystemDevices=self.GetSystemDevices(),
+            VideoCaptureDevices=self.GetVideoCaptureDevices(),
+            BytesStreamHandlers=self.GetBytesStreamHandlers(),
+            StatufForEnableHardwareMFT=self.GetStatufForEnableHardwareMFT(),
+            MFFileVersions=self.GetMFFileVersions(),
+            MFTs=self.GetMFTs(),
+            szPreferedMFTs=self.GetszPreferedMFTs(),
+            SchemeHandlers=self.GetSchemeHandlers(),
+            EnvPowerInformation=self.GetEnvPowerInformation(),
+            Filters=self.GetFilters(),
+            PreferredDShowFilters=self.GetPreferredDShowFilters(),
+            LogicalDisks=self.GetLogicalDisks(),
+            OSInformation=self.GetOSInformation(),
+            DirectXDebugLevels=self.GetDirectXDebugLevels(),
+            DxDiagNotes=self.GetDxDiagNotes(),
+            MachineInformation=self.GetMachineInformation(),
+            SystemModelInformation=self.GetSystemModelInformation(),
+            FirmwareInformation=self.GetFirmwareInformation(),
+            CPUInformation=self.GetCPUInformation(),
+            MemoryInformation=self.GetMemoryInformation(),
+            GraphicsInfromation=self.GetGraphicsInfromation(),
+            DXDiagInformation=self.GetDXDiagInformation(),
+            WERInfo=self.GetWERInfo()
+        )
+    
+    def __call__(self) -> DxdiagDataTotal:
+        return self._data
+
     def GetDirectInputDevices(self) -> List[DirectInputDevice.DirectInputDevice]:
         """
         Function to get the DirectInput devices from the dxdiag output\n
@@ -287,4 +505,3 @@ class DxdiagParser:
         :rtype: List[pydxdiag.schema.WER.WERInformation]
         """
         return WERFuncs.GetWERInfo(self.dxXML)
-        

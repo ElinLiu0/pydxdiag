@@ -50,7 +50,7 @@ class DXVADeinterplaceCap(BaseModel):
     NumBackwardRefSamples: int = Field(..., description="Number of Backward Reference Samples of the DXVA Deinterplace Cap")
 
 
-class ColorPrimaries:
+class ColorPrimaries(BaseModel):
     """
     Color Primaries of the GPU\n
     :params Red: Red Color Primary
@@ -67,21 +67,21 @@ class ColorPrimaries:
     Blue: tuple[float, float] = Field(..., description="Blue Color Primary")
     WhitePoint: tuple[float, float] = Field(..., description="WhitePoint Color Primary")
 
-class Luminance:
+class Luminance(BaseModel):
     """
     Luminance of the GPU\n
     :params Min: Minimum Luminance
     :type Min: float
     :params Max: Maximum Luminance
     :type Max: float
-    :params MaxFullFrame: Maximum Full Frame Luminance
-    :type MaxFullFrame: float
+    :params MaxFullFrameLuminance: Maximum Full Frame Luminance
+    :type MaxFullFrameLuminance: float
     """
     Min: float = Field(..., description="Minimum Luminance")
     Max: float = Field(..., description="Maximum Luminance")
-    MaxFullFrame: float = Field(..., description="Maximum Full Frame Luminance")
+    MaxFullFrameLuminance: float = Field(..., description="Maximum Full Frame Luminance")
 
-class HardwareSchedulingAttributes:
+class HardwareSchedulingAttributes(BaseModel):
     """
     Class to describe the Hardware Scheduling Attributes\n
     :params DriverSupportState: Driver Support State

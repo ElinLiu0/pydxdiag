@@ -255,7 +255,7 @@ def GetGraphicsInfromation(
     UserDPIScale:int = int(dxXML.find("DxDiag").find("SystemInformation").find("UserDPISettings").text.split(" ")[2].replace("(",""))
     SystemDPI:int = int(dxXML.find("DxDiag").find("SystemInformation").find("SystemDPISettings").text.split(" ")[0])
     SystemDPIScale:int = int(dxXML.find("DxDiag").find("SystemInformation").find("SystemDPISettings").text.split(" ")[2].replace("(",""))
-    DWMDPIScaling:Any = dxXML.find("DxDiag").find("SystemInformation").find("DWMDPIScaling")
+    DWMDPIScaling:Any = dxXML.find("DxDiag").find("SystemInformation").find("DWMDPIScaling").text
     return GraphicsInformation(
         Version=DireectXVersion,
         SetupParamaters=SetupParamaters,

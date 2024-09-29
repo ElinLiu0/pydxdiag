@@ -16,7 +16,10 @@ def GetStatufForEnableHardwareMFT(
     """
     tag:str = dxXML.find("DxDiag").find("MediaFoundation").find("szEnabledHardwareMFTs").text
     tag:str = tag.split("\n")
-    HardMFTStatus:szEnableHardwareMFT = szEnableHardwareMFT()
+    HardMFTStatus:szEnableHardwareMFT = szEnableHardwareMFT(
+        EnableEncoders = False,
+        EnableDecoders = False
+    )
     for i in tag:
         if i.startswith("EnableEncoders"):
             HardMFTStatus.EnableEncoders = bool(int(i.split("=")[1].strip()))

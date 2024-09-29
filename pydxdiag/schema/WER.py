@@ -38,8 +38,26 @@ class ProblemSignature:
     P8: Optional[str] = Field(None, title="P8")
     P9: Optional[str] = Field(None, title="P9")
     P10: Optional[str] = Field(None, title="P10")
+    def model_dump(self) -> Dict[str, str]:
+        """
+        Function to dump the model into a dictionary.\n
+        :returns: A dictionary containing the model
+        :rtype: Dict[str, str]
+        """
+        return {
+            "P1": self.P1,
+            "P2": self.P2,
+            "P3": self.P3,
+            "P4": self.P4,
+            "P5": self.P5,
+            "P6": self.P6,
+            "P7": self.P7,
+            "P8": self.P8,
+            "P9": self.P9,
+            "P10": self.P10
+        }
 
-class WERInformation(BaseModel):
+class WERInformation:
     """
     Basic class to describe a Windows Error Reporting (WER) entry.\n
     :params FaultBucket: The bucket ID for the error
@@ -53,8 +71,30 @@ class WERInformation(BaseModel):
     :params ProblemSignatures: The problem signature for the event
     :type ProblemSignatures: ProblemSignature
     """
-    FaultBucket: str = Field(None, title="FaultBucket", description="The bucket ID for the error")
-    EventName: str = Field(None, title="EventName", description="The name of the event")
-    Response: str = Field(None, title="Response", description="The response of the event")
-    CabId: int = Field(None, title="CabId", description="The CAB ID for the event")
-    ProblemSignatures: object = Field(None, title="ProblemSignature", description="The problem signature for the event")
+    def __init__(
+        self,
+        FaultBucket: str,
+        EventName: str,
+        Response: str,
+        CabId: int,
+        ProblemSignatures: ProblemSignature
+    ) -> None:
+        self.FaultBucket = FaultBucket
+        self.EventName = EventName
+        self.Response = Response
+        self.CabId = CabId
+        self.ProblemSignatures = ProblemSignatures
+
+    def model_dump(self) -> Dict[str, Any]:
+        """
+        Function to dump the model into a dictionary.\n
+        :returns: A dictionary containing the model
+        :rtype: Dict[str, Any]
+        """
+        return {
+            "FaultBucket": self.FaultBucket,
+            "EventName": self.EventName,
+            "Response": self.Response,
+            "CabId": self.CabId,
+            "ProblemSignatures": self.ProblemSignatures.model_dump()
+        }

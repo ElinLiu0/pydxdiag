@@ -46,14 +46,23 @@ def GetDisplayDevices(
         HDRSupported:bool = True if device.find("HDRSupport").text == "Supported" else False
         Topology:str = device.find("Topology").text
         ColorSpace:str = device.find("ColorSpace").text
-        ColorPrimariesInfo:ColorPrimaries = ColorPrimaries()
+        ColorPrimariesInfo:ColorPrimaries = ColorPrimaries(
+            Red = (0.0,0.0),
+            Green = (0.0,0.0),
+            Blue = (0.0,0.0),
+            WhitePoint = (0.0,0.0)
+        )
         Colors:List[str] = device.find("ColorPrimaries").text.replace("Red","").replace("White Point","").replace("Green","").replace("Blue","")
         Colors:List[Tuple[float,float]] = [eval(color) for color in Colors.split(", ") if color != "Unknown"]
         ColorPrimariesInfo.Red = Colors[0] if len(Colors) > 0 else (0.0,0.0)
         ColorPrimariesInfo.Green = Colors[1] if len(Colors) > 1 else (0.0,0.0)
         ColorPrimariesInfo.Blue = Colors[2] if len(Colors) > 2 else (0.0,0.0)
         ColorPrimariesInfo.WhitePoint = Colors[3] if len(Colors) > 3 else (0.0,0.0)
-        LuminanceInfo:Luminance = Luminance()
+        LuminanceInfo:Luminance = Luminance(
+            Min = 0.0,
+            Max = 0.0,
+            MaxFullFrameLuminance = 0.0
+        )
         Luminances:List[str] = device.find("Luminance").text.split(", ")
         for LuminanceSlice in Luminances:
             LuminanceValue:float = round(
@@ -168,7 +177,10 @@ def GetDisplayDevices(
         MPOMediaHints:str = device.find("MPOMediaHints").text
         MPOFormats:List[str] = device.find("MPOFormats").text.split(",")
         PanelFitterCaps:Optional[Any] = device.find("PanelFitterCaps").text
-        HardwareSchedulingAttributesInfo:HardwareSchedulingAttributes = HardwareSchedulingAttributes()
+        HardwareSchedulingAttributesInfo:HardwareSchedulingAttributes = HardwareSchedulingAttributes(
+            DriverSupportState = "",
+            Enabled = False,
+        )
         HardwareSchedulingAttributesString:str = device.find("HardwareSchedulingAttributes").text
         Attributes:List[str] = HardwareSchedulingAttributesString.split(" ")
         for attribute in Attributes:
@@ -186,7 +198,7 @@ def GetDisplayDevices(
         for Cap in DXVADeinterlaceCapTags:
             DXVADeinterlaceCaps.append(
                 DXVADeinterplaceCap(
-                    GUID=Cap.find("GUID").text,
+                    GUID=Cap.find("GUID").text.replace("{","").replace("}",""),
                     D3DInputFormat=Cap.find("D3DInputFormat").text,
                     D3DOutputFormat=Cap.find("D3DOutputFormat").text,
                     Caps = Cap.find("Caps").text.split(" "),

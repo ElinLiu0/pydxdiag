@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import *
 
 
 class GeneralDXDebugLevelInformation(BaseModel):
@@ -123,10 +123,56 @@ class DirectXDebugLevels:
     :params DirectShowDebugInformation: The debug information of the DirectShow
     :types DirectShowDebugInformation: DirectShowDebugInformation
     """
-    D3DDebugInformation:D3DDebugInformation
-    DirectDrawDebugInformation:DirectDrawDebugInformation
-    DirectInputDebugInformation:DirectInputDebugInformation
-    DirectMusicDebugInformation:DirectMusicDebugInformation
-    DirectPlayDebugInformation:DirectPlayDebugInformation
-    DirectSoundDebugInformation:DirectSoundDebugInformation
-    DirectShowDebugInformation:DirectShowDebugInformation
+    def __init__(self) -> None:
+        self.D3DDebugInformation = D3DDebugInformation(
+            Current=0,
+            Max=0,
+            Runtime=""
+        )
+        self.DirectDrawDebugInformation = DirectDrawDebugInformation(
+            Current=0,
+            Max=0,
+            Runtime=""
+        )
+        self.DirectInputDebugInformation = DirectInputDebugInformation(
+            Current=0,
+            Max=0,
+            Runtime=""
+        )
+        self.DirectMusicDebugInformation = DirectMusicDebugInformation(
+            Current=0,
+            Max=0,
+            Runtime=""
+        )
+        self.DirectPlayDebugInformation = DirectPlayDebugInformation(
+            Current=0,
+            Max=0,
+            Runtime=""
+        )
+        self.DirectSoundDebugInformation = DirectSoundDebugInformation(
+            Current=0,
+            Max=0,
+            Runtime=""
+        )
+        self.DirectShowDebugInformation = DirectShowDebugInformation(
+            Current=0,
+            Max=0,
+            Runtime=""
+        )
+
+
+    def model_dump(self) -> Dict[str, Any]:
+        """
+        Function to dump the model in a dictionary.\n
+        :return: The dumped model
+        :rtype: Dict[str, Any]
+        """
+        return {
+            "D3DDebugInformation": self.D3DDebugInformation.model_dump(),
+            "DirectDrawDebugInformation": self.DirectDrawDebugInformation.model_dump(),
+            "DirectInputDebugInformation": self.DirectInputDebugInformation.model_dump(),
+            "DirectMusicDebugInformation": self.DirectMusicDebugInformation.model_dump(),
+            "DirectPlayDebugInformation": self.DirectPlayDebugInformation.model_dump(),
+            "DirectSoundDebugInformation": self.DirectSoundDebugInformation.model_dump(),
+            "DirectShowDebugInformation": self.DirectShowDebugInformation.model_dump()
+        }

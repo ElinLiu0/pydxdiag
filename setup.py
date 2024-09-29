@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = "pydxdiag",
-    version = "0.1.4.3",
+    version = "0.1.7",
     packages = ["pydxdiag"],
     install_requires = [
         "pydantic",
@@ -19,7 +19,7 @@ setup(
     author_email = "982467922@qq.com",
     description = "A python library for parsing dxdiag output",
     long_description_content_type="text/markdown",
-    python_requires = ">=3.6",
+    python_requires = ">=3.10",
     classifiers=[
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',

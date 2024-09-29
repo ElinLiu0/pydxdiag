@@ -22,7 +22,7 @@ def GetSchemeHandlers(
         SchemeHandlers.append(
             szSchemeHandlers(
                 Name = line.split(",")[2].strip(),
-                SupportedFormat = line.split(",")[0].strip(),
+                SupportedFormat = line.split(",")[0].strip().replace(":",""),
                 HandlerID = line.split(",")[1].strip().replace("{","").replace("}",""),
                 IsPreferred = True if len(line.split(",")) > 3 and line.split(",")[3].strip() == "Preferred" else False,
             )
