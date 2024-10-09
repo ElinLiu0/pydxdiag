@@ -39,7 +39,7 @@ class PowerFlags(GeneralEnvPowerFlags):
     """
     pass
 
-class EvrPowerInformation(BaseModel):
+class EnvPowerInformation(BaseModel):
     """
     Class to describe environment power information.\n
     :params GUID: GUID of the environment power information

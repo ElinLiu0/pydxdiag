@@ -2,7 +2,6 @@ from bs4 import BeautifulSoup
 from typing import *
 from pathlib import Path
 import subprocess
-from pydantic import BaseModel, Field
 
 import pydxdiag.schema.DirectXDebugLevels as DirectXDebugLevels
 import pydxdiag.schema.DxDiagNotes as DxDiagNotes
@@ -11,7 +10,6 @@ import pydxdiag.schema.Filter as Filter
 import pydxdiag.schema.LogicalDisk as LogicalDisk
 import pydxdiag.schema.SystemInformation as SystemInformation
 import pydxdiag.schema.WER as WER
-import pydxdiag.schema.device as device
 import pydxdiag.schema.device.DirectInputDevice as DirectInputDevice
 import pydxdiag.schema.device.DisplayDevice as DisplayDevice
 import pydxdiag.schema.device.InputRelatedDevice as InputRelatedDevice
@@ -19,15 +17,12 @@ import pydxdiag.schema.device.SoundCaptureDevice as SoundCaptureDevice
 import pydxdiag.schema.device.SoundDevice as SoundDevice
 import pydxdiag.schema.device.SystemDevice as SystemDevice
 import pydxdiag.schema.device.VideoCaptureDevice as VideoCaptureDevice
-import pydxdiag.schema.sz as sz
 import pydxdiag.schema.sz.szBytesStreamHandler as szByteStreamHandler
 import pydxdiag.schema.sz.szEnableHarewareMFT as szEnabledHardwareMFT
 import pydxdiag.schema.sz.szMFFileVersion as szMFFileVersions
 import pydxdiag.schema.sz.szMFT as szMFT
 import pydxdiag.schema.sz.szPreferredMFT as szPreferredMFT
 import pydxdiag.schema.sz.szSchemeHandlers as szSchemeHandlers
-
-# sys.path.append(os.path.join(os.path.dirname(__file__), '.'))
 
 import pydxdiag.functions.device.DirectInputDevice as DirectInputDevice
 import pydxdiag.functions.device.DisplayDevice as DisplayDevice
@@ -130,7 +125,7 @@ class DxdiagDataTotal:
         MFTs: List[szMFT.szMFT],
         szPreferedMFTs: List[szPreferredMFT.szPreferredMFT],
         SchemeHandlers: List[szSchemeHandlers.szSchemeHandlers],
-        EnvPowerInformation: EnvPowerInformation.EvrPowerInformation,
+        EnvPowerInformation: EnvPowerInformation.EnvPowerInformation,
         Filters: List[Filter.Filter],
         PreferredDShowFilters: List[str],
         LogicalDisks: List[LogicalDisk.LogicalDisk],
@@ -400,11 +395,11 @@ class DxdiagParser(DxdiagDataTotal):
         :rtype: List[schema.sz.szSchemeHandler.szSchemeHandlers]
         """
         return szSchemeHandlers.GetSchemeHandlers(self.dxXML)
-    def GetEnvPowerInformation(self) -> EnvPowerInformation.EvrPowerInformation:
+    def GetEnvPowerInformation(self) -> EnvPowerInformation.EnvPowerInformation:
         """
         Function to get the Environment Power Information from the dxdiag output\n
         :return: The Environment Power Information
-        :rtype: schema.EnvPowerInformation.EvrPowerInformation
+        :rtype: schema.EnvPowerInformation.EnvPowerInformation
         """
         return EnvPowerInformation.GetEnvPowerInformation(self.dxXML)
     def GetFilters(self) -> List[Filter.Filter]:

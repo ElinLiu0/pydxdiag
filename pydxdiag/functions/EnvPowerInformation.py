@@ -6,7 +6,7 @@ from bs4.element import Tag
 
 def GetEnvPowerInformation(
     dxXML:BeautifulSoup,   
-) -> EvrPowerInformation:
+) -> EnvPowerInformation:
     """
     Function to get the power information from a dxdiag XML file.\n
     :param dxXML: The root of the dxdiag XML tree
@@ -35,7 +35,7 @@ def GetEnvPowerInformation(
         EnabledOptions = [Option.strip() for Option in PowerFlagsElement.find("Enabled").text.split("\n")],
         DecodePowerUsage = int(PowerFlagsElement.find("DecodePowerUsage").text)
     )
-    EvrPower:EvrPowerInformation = EvrPowerInformation(
+    EvrPower:EnvPowerInformation = EnvPowerInformation(
         GUID = GUID,
         Mode = Mode,
         QualityFlagsInfo = QualityFlagsInfo,
