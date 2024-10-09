@@ -4,28 +4,28 @@ from pathlib import Path
 import subprocess
 from pydantic import BaseModel, Field
 
-import pydxdiag.schema.DirectXDebugLevels
-import pydxdiag.schema.DxDiagNotes
-import pydxdiag.schema.EnvPowerInformation
-import pydxdiag.schema.Filter
-import pydxdiag.schema.LogicalDisk
-import pydxdiag.schema.SystemInformation
-import pydxdiag.schema.WER
-import pydxdiag.schema.device
-import pydxdiag.schema.device.DirectInputDevice
-import pydxdiag.schema.device.DisplayDevice
-import pydxdiag.schema.device.InputRelatedDevice
-import pydxdiag.schema.device.SoundCaptureDevice
-import pydxdiag.schema.device.SoundDevice
-import pydxdiag.schema.device.SystemDevice
-import pydxdiag.schema.device.VideoCaptureDevice
-import pydxdiag.schema.sz
-import pydxdiag.schema.sz.szBytesStreamHandler
-import pydxdiag.schema.sz.szEnableHarewareMFT
-import pydxdiag.schema.sz.szMFFileVersion
-import pydxdiag.schema.sz.szMFT
-import pydxdiag.schema.sz.szPreferredMFT
-import pydxdiag.schema.sz.szSchemeHandlers
+import pydxdiag.schema.DirectXDebugLevels as DirectXDebugLevels
+import pydxdiag.schema.DxDiagNotes as DxDiagNotes
+import pydxdiag.schema.EnvPowerInformation as EnvPowerInformation
+import pydxdiag.schema.Filter as Filter
+import pydxdiag.schema.LogicalDisk as LogicalDisk
+import pydxdiag.schema.SystemInformation as SystemInformation
+import pydxdiag.schema.WER as WER
+import pydxdiag.schema.device as device
+import pydxdiag.schema.device.DirectInputDevice as DirectInputDevice
+import pydxdiag.schema.device.DisplayDevice as DisplayDevice
+import pydxdiag.schema.device.InputRelatedDevice as InputRelatedDevice
+import pydxdiag.schema.device.SoundCaptureDevice as SoundCaptureDevice
+import pydxdiag.schema.device.SoundDevice as SoundDevice
+import pydxdiag.schema.device.SystemDevice as SystemDevice
+import pydxdiag.schema.device.VideoCaptureDevice as VideoCaptureDevice
+import pydxdiag.schema.sz as sz
+import pydxdiag.schema.sz.szBytesStreamHandler as szByteStreamHandler
+import pydxdiag.schema.sz.szEnableHarewareMFT as szEnabledHardwareMFT
+import pydxdiag.schema.sz.szMFFileVersion as szMFFileVersions
+import pydxdiag.schema.sz.szMFT as szMFT
+import pydxdiag.schema.sz.szPreferredMFT as szPreferredMFT
+import pydxdiag.schema.sz.szSchemeHandlers as szSchemeHandlers
 
 # sys.path.append(os.path.join(os.path.dirname(__file__), '.'))
 
@@ -124,10 +124,10 @@ class DxdiagDataTotal:
         SoundDevices: List[SoundDevice.SoundDevice],
         SystemDevices: List[SystemDevice.SystemDevice],
         VideoCaptureDevices: List[VideoCaptureDevice.VideoCaptureDevice],
-        BytesStreamHandlers: List[pydxdiag.schema.sz.szBytesStreamHandler.szBytesStreamHandler],
+        BytesStreamHandlers: List[szByteStreamHandler.szBytesStreamHandler],
         StatufForEnableHardwareMFT: bool,
-        MFFileVersions: List[pydxdiag.schema.sz.szMFFileVersion.szMFFileVersion],
-        MFTs: List[pydxdiag.schema.sz.szMFT.szMFT],
+        MFFileVersions: List[szMFFileVersions.szMFFileVersion],
+        MFTs: List[szMFT.szMFT],
         szPreferedMFTs: List[szPreferredMFT.szPreferredMFT],
         SchemeHandlers: List[szSchemeHandlers.szSchemeHandlers],
         EnvPowerInformation: EnvPowerInformation.EvrPowerInformation,
@@ -135,8 +135,8 @@ class DxdiagDataTotal:
         PreferredDShowFilters: List[str],
         LogicalDisks: List[LogicalDisk.LogicalDisk],
         OSInformation: SystemInformation.OSInformation,
-        DirectXDebugLevels: pydxdiag.schema.DirectXDebugLevels.DirectXDebugLevels,
-        DxDiagNotes: List[pydxdiag.schema.DxDiagNotes.GeneralDXDiagNotes],
+        DirectXDebugLevels: DirectXDebugLevels.DirectXDebugLevels,
+        DxDiagNotes: List[DxDiagNotes.GeneralDXDiagNotes],
         MachineInformation: SystemInformation.MachineInformation,
         SystemModelInformation: SystemInformation.SystemModelInformation,
         FirmwareInformation: SystemInformation.FirmwareInformation,
@@ -144,7 +144,7 @@ class DxdiagDataTotal:
         MemoryInformation: SystemInformation.MemoryInformation,
         GraphicsInfromation: SystemInformation.GraphicsInformation,
         DXDiagInformation: SystemInformation.DXDiagInformation,
-        WERInfo: List[pydxdiag.schema.WER.WERInformation]
+        WERInfo: List[WER.WERInformation]
     ) -> None:
         self.DirectInputDevices = DirectInputDevices
         self.DisplayDevices = DisplayDevices
@@ -358,60 +358,60 @@ class DxdiagParser(DxdiagDataTotal):
         :rtype: List[VideoCaptureDevice.VideoCaptureDevice]
         """
         return VideoCaptureDevice.GetVideoCaptureDevices(self.dxXML)
-    def GetBytesStreamHandlers(self) -> List[pydxdiag.schema.sz.szBytesStreamHandler.szBytesStreamHandler]:
+    def GetBytesStreamHandlers(self) -> List[szByteStreamHandler.szBytesStreamHandler]:
         """
         Function to get the Byte Stream Handlers from the dxdiag output\n
         :return: List of szBytesStreamHandler objects
-        :rtype: List[pydxdiag.schema.sz.szBytesStreamHandler.szBytesStreamHandler]
+        :rtype: List[schema.sz.szBytesStreamHandler.szBytesStreamHandler]
         """
         return szByteStreamHandler.GetBytesStreamHandlers(self.dxXML)
-    def GetStatufForEnableHardwareMFT(self) -> pydxdiag.schema.sz.szEnableHarewareMFT.szEnableHardwareMFT:
+    def GetStatufForEnableHardwareMFT(self) -> szEnabledHardwareMFT.szEnableHardwareMFT:
         """
         Function to get the Status for Enable Hardware MFT from the dxdiag output\n
         :return: The status for Enable Hardware MFT
         :rtype: bool
         """
         return szEnabledHardwareMFT.GetStatufForEnableHardwareMFT(self.dxXML)
-    def GetMFFileVersions(self) -> List[pydxdiag.schema.sz.szMFFileVersion.szMFFileVersion]:
+    def GetMFFileVersions(self) -> List[szMFFileVersions.szMFFileVersion]:
         """
         Function to get the MF File Versions from the dxdiag output\n
         :return: List of szMFFileVersions objects
-        :rtype: List[pydxdiag.schema.sz.szMFFileVersion.szMFFileVersion]
+        :rtype: List[schema.sz.szMFFileVersion.szMFFileVersion]
         """
         return szMFFileVersions.GetMFFileVersions(self.dxXML)
-    def GetMFTs(self) -> List[pydxdiag.schema.sz.szMFT.szMFT]:
+    def GetMFTs(self) -> List[szMFT.szMFT]:
         """
         Function to get the MFTs from the dxdiag output\n
         :return: List of szMFTs objects
-        :rtype: List[pydxdiag.schema.sz.szMFT.szMFT]
+        :rtype: List[schema.sz.szMFT.szMFT]
         """
         return szMFTs.GetMFTs(self.dxXML)
-    def GetszPreferedMFTs(self) -> List[pydxdiag.schema.sz.szPreferredMFT.szPreferredMFT]:
+    def GetszPreferedMFTs(self) -> List[szPreferredMFT.szPreferredMFT]:
         """
         Function to get the Preferred MFTs from the dxdiag output\n
         :return: List of szPreferredMFT objects
-        :rtype: List[pydxdiag.schema.sz.szPreferredMFT.szPreferredMFT]
+        :rtype: List[schema.sz.szPreferredMFT.szPreferredMFT]
         """
         return szPreferredMFT.GetszPreferedMFTs(self.dxXML)
-    def GetSchemeHandlers(self) -> List[pydxdiag.schema.sz.szSchemeHandlers.szSchemeHandlers]:
+    def GetSchemeHandlers(self) -> List[szSchemeHandlers.szSchemeHandlers]:
         """
         Function to get the Scheme Handlers from the dxdiag output\n
         :return: List of szSchemeHandler objects
-        :rtype: List[pydxdiag.schema.sz.szSchemeHandler.szSchemeHandlers]
+        :rtype: List[schema.sz.szSchemeHandler.szSchemeHandlers]
         """
         return szSchemeHandlers.GetSchemeHandlers(self.dxXML)
-    def GetEnvPowerInformation(self) -> pydxdiag.schema.EnvPowerInformation.EvrPowerInformation:
+    def GetEnvPowerInformation(self) -> EnvPowerInformation.EvrPowerInformation:
         """
         Function to get the Environment Power Information from the dxdiag output\n
         :return: The Environment Power Information
-        :rtype: pydxdiag.schema.EnvPowerInformation.EvrPowerInformation
+        :rtype: schema.EnvPowerInformation.EvrPowerInformation
         """
         return EnvPowerInformation.GetEnvPowerInformation(self.dxXML)
-    def GetFilters(self) -> List[pydxdiag.schema.Filter.Filter]:
+    def GetFilters(self) -> List[Filter.Filter]:
         """
         Function to get the Filters from the dxdiag output\n
         :return: List of Filter objects
-        :rtype: List[pydxdiag.schema.Filter.Filter]
+        :rtype: List[schema.Filter.Filter]
         """
         return Filter.GetFilters(self.dxXML)
     def GetPreferredDShowFilters(self) -> List[str]:
@@ -421,87 +421,87 @@ class DxdiagParser(DxdiagDataTotal):
         :rtype: List[str]
         """
         return Filter.GetPreferredDShowFilters(self.dxXML)
-    def GetLogicalDisks(self) -> List[pydxdiag.schema.LogicalDisk.LogicalDisk]:
+    def GetLogicalDisks(self) -> List[LogicalDisk.LogicalDisk]:
         """
         Function to get the Logical Disks from the dxdiag output\n
         :return: List of Logical Disks
-        :rtype: List[pydxdiag.schema.LogicalDisk.LogicalDisk]
+        :rtype: List[schema.LogicalDisk.LogicalDisk]
         """
         return LogicalDisk.GetLogicalDisks(self.dxXML)
-    def GetOSInformation(self) -> pydxdiag.schema.SystemInformation.OSInformation:
+    def GetOSInformation(self) -> SystemInformation.OSInformation:
         """
         Function to get the OS Information from the dxdiag output\n
         :return: The OS Information
-        :rtype: pydxdiag.schema.SystemInformation.OSInformation
+        :rtype: schema.SystemInformation.OSInformation
         """
         return SystemInformation.GetOSInformation(self.dxXML)
-    def GetDirectXDebugLevels(self) -> pydxdiag.schema.DirectXDebugLevels.DirectXDebugLevels:
+    def GetDirectXDebugLevels(self) -> DirectXDebugLevels.DirectXDebugLevels:
         """
         Function to get the DirectX Debug Levels from the dxdiag output\n
         :return: List of DirectX Debug Levels
-        :rtype: pydxdiag.schema.DirectXDebugLevels.DirectXDebugLevels
+        :rtype: schema.DirectXDebugLevels.DirectXDebugLevels
         """
         return SystemInformation.GetDirectXDebugLevels(self.dxXML)
-    def GetDxDiagNotes(self) -> List[pydxdiag.schema.DxDiagNotes.GeneralDXDiagNotes]:
+    def GetDxDiagNotes(self) -> List[DxDiagNotes.GeneralDXDiagNotes]:
         """
         Function to get the DxDiag Notes from the dxdiag output\n
         :return: List of DxDiag Notes
-        :rtype: List[pydxdiag.schema.DxDiagNotes.GeneralDXDiagNotes]
+        :rtype: List[schema.DxDiagNotes.GeneralDXDiagNotes]
         """
         return SystemInformation.GetDxDiagNotes(self.dxXML)
-    def GetMachineInformation(self) -> pydxdiag.schema.SystemInformation.MachineInformation:
+    def GetMachineInformation(self) -> SystemInformation.MachineInformation:
         """
         Function to get the Machine Information from the dxdiag output\n
         :return: The Machine Information
-        :rtype: pydxdiag.schema.SystemInformation.MachineInformation
+        :rtype: schema.SystemInformation.MachineInformation
         """
         return SystemInformation.GetMachineInformation(self.dxXML)
-    def GetSystemModelInformation(self) -> pydxdiag.schema.SystemInformation.SystemModelInformation:
+    def GetSystemModelInformation(self) -> SystemInformation.SystemModelInformation:
         """
         Function to get the System Model Information from the dxdiag output\n
         :return: The System Model Information
-        :rtype: pydxdiag.schema.SystemInformation.SystemModelInformation
+        :rtype: schema.SystemInformation.SystemModelInformation
         """
         return SystemInformation.GetSystemModelInformation(self.dxXML)
-    def GetFirmwareInformation(self) -> pydxdiag.schema.SystemInformation.FirmwareInformation:
+    def GetFirmwareInformation(self) -> SystemInformation.FirmwareInformation:
         """
         Function to get the Firmware Information from the dxdiag output\n
         :return: The Firmware Information
-        :rtype: pydxdiag.schema.SystemInformation.FirmwareInformation
+        :rtype: schema.SystemInformation.FirmwareInformation
         """
         return SystemInformation.GetFirmwareInformation(self.dxXML)
-    def GetCPUInformation(self) -> pydxdiag.schema.SystemInformation.CPUInformation:
+    def GetCPUInformation(self) -> SystemInformation.CPUInformation:
         """
         Function to get the CPU Information from the dxdiag output\n
         :return: The CPU Information
-        :rtype: pydxdiag.schema.SystemInformation.CPUInformation
+        :rtype: schema.SystemInformation.CPUInformation
         """
         return SystemInformation.GetCPUInformation(self.dxXML)
-    def GetMemoryInformation(self) -> pydxdiag.schema.SystemInformation.MemoryInformation:
+    def GetMemoryInformation(self) -> SystemInformation.MemoryInformation:
         """
         Function to get the Memory Information from the dxdiag output\n
         :return: The Memory Information
-        :rtype: pydxdiag.schema.SystemInformation.MemoryInformation
+        :rtype: schema.SystemInformation.MemoryInformation
         """
         return SystemInformation.GetMemoryInformation(self.dxXML)
-    def GetGraphicsInfromation(self) -> pydxdiag.schema.SystemInformation.GraphicsInformation:
+    def GetGraphicsInfromation(self) -> SystemInformation.GraphicsInformation:
         """
         Function to get the Graphics Information from the dxdiag output\n
         :return: The Graphics Information
-        :rtype: pydxdiag.schema.SystemInformation.GraphicsInformation
+        :rtype: schema.SystemInformation.GraphicsInformation
         """
         return SystemInformation.GetGraphicsInfromation(self.dxXML)
-    def GetDXDiagInformation(self) -> pydxdiag.schema.SystemInformation.DXDiagInformation:
+    def GetDXDiagInformation(self) -> SystemInformation.DXDiagInformation:
         """
         Function to get the DXDiag Information from the dxdiag output\n
         :return: The DXDiag Information
-        :rtype: pydxdiag.schema.SystemInformation.DXDiagInformation
+        :rtype: schema.SystemInformation.DXDiagInformation
         """
         return SystemInformation.GetDXDiagInformation(self.dxXML)
-    def GetWERInfo(self) -> List[pydxdiag.schema.WER.WERInformation]:
+    def GetWERInfo(self) -> List[WER.WERInformation]:
         """
         Function to get the WER Information from the dxdiag output\n
         :return: List of WER Information
-        :rtype: List[pydxdiag.schema.WER.WERInformation]
+        :rtype: List[schema.WER.WERInformation]
         """
         return WERFuncs.GetWERInfo(self.dxXML)

@@ -8,8 +8,16 @@ from setuptools import setup, find_packages
 
 setup(
     name = "pydxdiag",
-    version = "0.1.7",
-    packages = ["pydxdiag"],
+    version = "0.1.8",
+    packages = [
+        "pydxdiag",
+        "pydxdiag.functions",
+        "pydxdiag.functions.device",
+        "pydxdiag.functions.sz",
+        "pydxdiag.schema",
+        "pydxdiag.schema.device",
+        "pydxdiag.schema.sz",
+    ],
     install_requires = [
         "pydantic",
         "beautifulsoup4",
