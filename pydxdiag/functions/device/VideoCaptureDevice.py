@@ -17,8 +17,11 @@ def GetVideoCaptureDevices(
     """
     VideoCaptureDevices:List[Tag] = dxXML.find("DxDiag").find("VideoCaptureDevices").find_all("VideoCaptureDevice")
     VideoCaptureDevicesList:List[VideoCaptureDevice] = []
+    ProcessedDeviceNames:List[str] = []
     for device in VideoCaptureDevices:
         FriendlyName:str = device.find("FriendlyName").text
+        if FriendlyName in ProcessedDeviceNames:
+            continue
         Category:str = device.find("Category").text
         SysmbolicLink:str = device.find("SymbolicLink").text
         Location:str = device.find("Location").text
@@ -57,6 +60,7 @@ def GetVideoCaptureDevices(
         MSXUCapability:Optional[str] = None if device.find("MSXUCapability").text == "n/a" else device.find("MSXUCapability").text
         ProfileIDs:Optional[str] = None if device.find("ProfileIDs").text == "n/a" else device.find("ProfileIDs").text
         DriverProvider:Optional[str] = None if device.find("DriverProvider").text == "n/a" else device.find("DriverProvider").text
+        ProcessedDeviceNames.append(FriendlyName)
         VideoCaptureDevicesList.append(
             VideoCaptureDevice(
                 FriendlyName = FriendlyName,
@@ -95,4 +99,5 @@ def GetVideoCaptureDevices(
                 ProfileIDs = ProfileIDs
             )
         )
+
     return VideoCaptureDevicesList

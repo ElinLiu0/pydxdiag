@@ -1,11 +1,11 @@
-import sys
-import os
+import bs4
+from bs4.element import Tag
+from typing import List
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-
-
-from pydxdiag.DxdiagParser import DxdiagParser
-
-parser = DxdiagParser()
-
-print(parser.model_dump_json("./output.json"))
+with open("../out.xml", "r",encoding="utf-8") as f:
+    dxXML = bs4.BeautifulSoup(f.read(), "xml")
+    VideoCaptureDevices:List[Tag] = dxXML.find("DxDiag").find("VideoCaptureDevices").find_all("VideoCaptureDevice")
+    for device in VideoCaptureDevices:
+        print(
+            device.find("Manufacturer")
+        )

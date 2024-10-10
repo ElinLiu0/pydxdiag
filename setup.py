@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = "pydxdiag",
-    version = "0.1.8.1",
+    version = "0.1.9",
     packages = [
         "pydxdiag",
         "pydxdiag.functions",

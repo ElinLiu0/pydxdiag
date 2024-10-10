@@ -187,8 +187,10 @@ def GetCPUInformation(
     # * or HEDT CPU like Intel Xeon or AMD Threadripper
     # * So this function will only support AMD Ryzen and Intel Core Series Processors
     if "Intel" in Name:
-        if "Core" in Name:
-            Gen:int = int(Name.split(" ")[0].replace("th",""))
+        if "Ultra" in Name:
+            Gen:int = int(Name.split(" ")[4][0]) * 100
+        elif "Core" in Name:
+            Gen:int = int(Name.split(" ")[0].replace("th",""))    
         else:
             Gen:Optional[int] = None
     elif "AMD" in Name:
