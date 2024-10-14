@@ -1,4 +1,4 @@
-from pydxdiag.schema.Filter import Filter
+from pydxdiag.schema.Filter import Filter,PreferredDShowFilters
 from typing import *
 from datetime import datetime
 from bs4 import BeautifulSoup
@@ -6,19 +6,27 @@ from bs4.element import Tag
 
 def GetPreferredDShowFilters(
     dxXML:BeautifulSoup,
-) -> List[str]:
+) -> List[PreferredDShowFilters]:
     """
     Function to get the preferred direct show filters from the dxdiag xml.\n
     :param dxXML: The dxdiag xml
     :type dxXML: BeautifulSoup
-    :return List[str]: The preferred direct show filters
-    :rtype List[str]: List[str]
+    :return Filters: The preferred direct show filters
+    :rtype Filters: List[PreferredDShowFilters]
     """
-    return [
-        filterName.strip()
-        for filterName in dxXML.find("DxDiag").find_all("DirectShow")[1].find("PreferredDShowFilters").text.split(",")
-    ]
-
+    FiltersInRead:List[str] = dxXML.find("DxDiag").find_all("DirectShow")[1].find("PreferredDShowFilters").text.split("\n")
+    Filters:List[PreferredDShowFilters] = []
+    for filterRecord in FiltersInRead:
+        if filterRecord == "":
+            continue
+        Filters.append(
+            PreferredDShowFilters(
+                MediaSubType=filterRecord.split(",")[0].strip(),
+                Name=filterRecord.split(",")[1].strip(),
+                CLSIDType=filterRecord.split(",")[2].strip()
+            )
+        )
+    return Filters
 def GetFilters(
     dxXML:BeautifulSoup,
 ) -> List[Filter]:

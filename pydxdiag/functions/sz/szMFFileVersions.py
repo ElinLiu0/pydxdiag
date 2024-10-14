@@ -14,15 +14,17 @@ def GetMFFileVersions(
     :return List[MFFileVersion]: The media foundation file versions information
     :rtype List[MFFileVersion]: List[MFFileVersion]
     """
-    MFFileVersions:str = dxXML.find("DxDiag").find("MediaFoundation").find("szMFFileVersions").text.split("\n")
-    MFFileVersions:List[szMFFileVersion] = []
-    for MFFileVersion in MFFileVersions:
-        Name, Version = MFFileVersion.split(", ")
-        MFFileVersions.append(
+    MFFileVersionsTags:List[str] = dxXML.find("DxDiag").find("MediaFoundation").find("szMFFileVersions").text.split("\n")
+    MFFileVersionsStrings:List[szMFFileVersion] = []
+    for MFFileVersion in MFFileVersionsTags:
+        if MFFileVersion == "":
+            continue
+        Name, Version = [Info.strip() for Info in MFFileVersion.split(", ")]
+        MFFileVersionsStrings.append(
             szMFFileVersion(
                 Name=Name,
                 Version=Version
             )
         )
 
-    return MFFileVersions
+    return MFFileVersionsStrings

@@ -1,4 +1,4 @@
-from pydxdiag.schema.sz.szEnableHarewareMFT import *
+from pydxdiag.schema.sz.szEnableHardwareMFT import *
 from typing import *
 from datetime import datetime
 from bs4 import BeautifulSoup

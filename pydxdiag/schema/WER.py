@@ -38,6 +38,7 @@ class ProblemSignature:
     P8: Optional[str] = Field(None, title="P8")
     P9: Optional[str] = Field(None, title="P9")
     P10: Optional[str] = Field(None, title="P10")
+    
     def model_dump(self) -> Dict[str, str]:
         """
         Function to dump the model into a dictionary.\n
@@ -56,6 +57,9 @@ class ProblemSignature:
             "P9": self.P9,
             "P10": self.P10
         }
+    
+    def __repr__(self):
+        return f"ProblemSignature(P1={self.P1}, P2={self.P2}, P3={self.P3}, P4={self.P4}, P5={self.P5}, P6={self.P6}, P7={self.P7}, P8={self.P8}, P9={self.P9}, P10={self.P10})"
 
 class WERInformation:
     """
@@ -98,3 +102,6 @@ class WERInformation:
             "CabId": self.CabId,
             "ProblemSignatures": self.ProblemSignatures.model_dump()
         }
+
+    def __repr__(self):
+        return f"WERInformation(FaultBucket={self.FaultBucket}, EventName={self.EventName}, Response={self.Response}, CabId={self.CabId}, ProblemSignatures={self.ProblemSignatures})"

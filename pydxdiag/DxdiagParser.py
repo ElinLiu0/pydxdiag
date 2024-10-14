@@ -18,7 +18,7 @@ import pydxdiag.schema.device.SoundDevice as SoundDevice
 import pydxdiag.schema.device.SystemDevice as SystemDevice
 import pydxdiag.schema.device.VideoCaptureDevice as VideoCaptureDevice
 import pydxdiag.schema.sz.szBytesStreamHandler as szByteStreamHandler
-import pydxdiag.schema.sz.szEnableHarewareMFT as szEnabledHardwareMFT
+import pydxdiag.schema.sz.szEnableHardwareMFT as szEnabledHardwareMFT
 import pydxdiag.schema.sz.szMFFileVersion as szMFFileVersions
 import pydxdiag.schema.sz.szMFT as szMFT
 import pydxdiag.schema.sz.szPreferredMFT as szPreferredMFT
@@ -232,13 +232,15 @@ class DxdiagParser(DxdiagDataTotal):
     """
     Basic parser class for DirectX Diagnostic Tool output
     """
-    def __init__(self) -> None:
+    def __init__(self,SaveHere:bool = False) -> None:
         self.dxXML:BeautifulSoup = None
         # Creating a BeautifulSoup object for the dxdiag output
-        self.LoadDXDiag()
-    def LoadDXDiag(self) -> None:
+        self.LoadDXDiag(SaveHere)
+    def LoadDXDiag(self,SaveHere:bool = False) -> None:
         """
         Function to load the dxdiag output into the BeautifulSoup object
+        :param SaveHere: Save the dxdiag.xml file in the current directory
+        :type SaveHere: bool
         """
         # Running subprocess without shell execution
         subprocess.run(
@@ -253,7 +255,7 @@ class DxdiagParser(DxdiagDataTotal):
               self.dxXML:BeautifulSoup = BeautifulSoup(f, features="xml")
         f.close()
         # Removing the output file
-        Path("dxdiag.xml").unlink()
+        Path("dxdiag.xml").unlink() if SaveHere == False else None
         super(DxdiagParser, self).__init__(
             DirectInputDevices=self.GetDirectInputDevices(),
             DisplayDevices=self.GetDisplayDevices(),

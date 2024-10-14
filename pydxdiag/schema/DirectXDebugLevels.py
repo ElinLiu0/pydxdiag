@@ -176,3 +176,6 @@ class DirectXDebugLevels:
             "DirectSoundDebugInformation": self.DirectSoundDebugInformation.model_dump(),
             "DirectShowDebugInformation": self.DirectShowDebugInformation.model_dump()
         }
+    
+    def __repr__(self):
+        return f"DirectXDebugLevels(D3DDebugInformation({self.D3DDebugInformation}), DirectDrawDebugInformation({self.DirectDrawDebugInformation}), DirectInputDebugInformation({self.DirectInputDebugInformation}), DirectMusicDebugInformation({self.DirectMusicDebugInformation}), DirectPlayDebugInformation({self.DirectPlayDebugInformation}), DirectSoundDebugInformation({self.DirectSoundDebugInformation}), DirectShowDebugInformation({self.DirectShowDebugInformation}))"

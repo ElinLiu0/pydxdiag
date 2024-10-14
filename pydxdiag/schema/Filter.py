@@ -2,6 +2,7 @@ from pydantic import (
     BaseModel,
     Field,
 )
+from typing import Optional
 
 class Filter(BaseModel):
     """
@@ -28,3 +29,29 @@ class Filter(BaseModel):
     Outputs: int = Field(...)
     File: str = Field(...)
     FileVersion: str = Field(...)
+
+class PreferredDShowFilters(BaseModel):
+    """
+    A class to store the preferred direct show filters\n
+    :params MediaSubType: The media subtype of the filter
+    :type MediaSubType: Optional[str]
+    :params Name: The name of the filter
+    :type Name: Optional[str]
+    :params CLSIDType: The CLSID type of the filter
+    :type CLSIDType: Optional[str]
+    """
+    MediaSubType:Optional[str] = Field(
+        None,
+        title="Media Sub Type",
+        description="The media subtype of the filter"
+    )
+    Name:Optional[str] = Field(
+        None,
+        title="Name",
+        description="The name of the filter"
+    )
+    CLSIDType:Optional[str] = Field(
+        None,
+        title="CLSID Type",
+        description="The CLSID type of the filter"
+    )
