@@ -17,6 +17,7 @@ publish:
 testing:
 	cd test && python test.py
 gendoc:
+	sphinx-apidoc -f -o doc pydxdiag
 	cd doc && make html
 viewdoc:
 	powershell start doc/_build/html/index.html

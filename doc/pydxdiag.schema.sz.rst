@@ -12,10 +12,10 @@ pydxdiag.schema.sz.szBytesStreamHandler module
    :undoc-members:
    :show-inheritance:
 
-pydxdiag.schema.sz.szEnableHarewareMFT module
+pydxdiag.schema.sz.szEnableHardwareMFT module
 ---------------------------------------------
 
-.. automodule:: pydxdiag.schema.sz.szEnableHarewareMFT
+.. automodule:: pydxdiag.schema.sz.szEnableHardwareMFT
    :members:
    :undoc-members:
    :show-inheritance:

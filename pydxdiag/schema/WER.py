@@ -3,7 +3,9 @@ from pydantic import (
     Field,
 )
 from typing import *
+from dataclasses import dataclass
 
+@dataclass
 class ProblemSignature:
     """
     Basic class to describe a problem signature entry.\n
@@ -57,10 +59,7 @@ class ProblemSignature:
             "P9": self.P9,
             "P10": self.P10
         }
-    
-    def __repr__(self):
-        return f"ProblemSignature(P1={self.P1}, P2={self.P2}, P3={self.P3}, P4={self.P4}, P5={self.P5}, P6={self.P6}, P7={self.P7}, P8={self.P8}, P9={self.P9}, P10={self.P10})"
-
+@dataclass
 class WERInformation:
     """
     Basic class to describe a Windows Error Reporting (WER) entry.\n
@@ -75,19 +74,11 @@ class WERInformation:
     :params ProblemSignatures: The problem signature for the event
     :type ProblemSignatures: ProblemSignature
     """
-    def __init__(
-        self,
-        FaultBucket: str,
-        EventName: str,
-        Response: str,
-        CabId: int,
-        ProblemSignatures: ProblemSignature
-    ) -> None:
-        self.FaultBucket = FaultBucket
-        self.EventName = EventName
-        self.Response = Response
-        self.CabId = CabId
-        self.ProblemSignatures = ProblemSignatures
+    FaultBucket: str = Field(..., title="FaultBucket")
+    EventName: str = Field(..., title="EventName")
+    Response: str = Field(..., title="Response")
+    CabId: int = Field(..., title="CabId")
+    ProblemSignatures: ProblemSignature = Field(..., title="ProblemSignatures")
 
     def model_dump(self) -> Dict[str, Any]:
         """
@@ -102,6 +93,3 @@ class WERInformation:
             "CabId": self.CabId,
             "ProblemSignatures": self.ProblemSignatures.model_dump()
         }
-
-    def __repr__(self):
-        return f"WERInformation(FaultBucket={self.FaultBucket}, EventName={self.EventName}, Response={self.Response}, CabId={self.CabId}, ProblemSignatures={self.ProblemSignatures})"

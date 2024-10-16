@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import *
-
+from dataclasses import dataclass
 
 class GeneralDXDebugLevelInformation(BaseModel):
     """
@@ -104,7 +104,8 @@ class DirectShowDebugInformation(GeneralDXDebugLevelInformation):
     :params Runtime: The runtime for the DirectShow
     :types Runtime: Optional[str]
     """
-    
+
+@dataclass  
 class DirectXDebugLevels:
     """
     Debug levels of the DirectX\n
@@ -123,42 +124,41 @@ class DirectXDebugLevels:
     :params DirectShowDebugInformation: The debug information of the DirectShow
     :types DirectShowDebugInformation: DirectShowDebugInformation
     """
-    def __init__(self) -> None:
-        self.D3DDebugInformation = D3DDebugInformation(
-            Current=0,
-            Max=0,
-            Runtime=""
-        )
-        self.DirectDrawDebugInformation = DirectDrawDebugInformation(
-            Current=0,
-            Max=0,
-            Runtime=""
-        )
-        self.DirectInputDebugInformation = DirectInputDebugInformation(
-            Current=0,
-            Max=0,
-            Runtime=""
-        )
-        self.DirectMusicDebugInformation = DirectMusicDebugInformation(
-            Current=0,
-            Max=0,
-            Runtime=""
-        )
-        self.DirectPlayDebugInformation = DirectPlayDebugInformation(
-            Current=0,
-            Max=0,
-            Runtime=""
-        )
-        self.DirectSoundDebugInformation = DirectSoundDebugInformation(
-            Current=0,
-            Max=0,
-            Runtime=""
-        )
-        self.DirectShowDebugInformation = DirectShowDebugInformation(
-            Current=0,
-            Max=0,
-            Runtime=""
-        )
+    D3DDebugInformation = D3DDebugInformation(
+        Current=0,
+        Max=0,
+        Runtime=""
+    )
+    DirectDrawDebugInformation = DirectDrawDebugInformation(
+        Current=0,
+        Max=0,
+        Runtime=""
+    )
+    DirectInputDebugInformation = DirectInputDebugInformation(
+        Current=0,
+        Max=0,
+        Runtime=""
+    )
+    DirectMusicDebugInformation = DirectMusicDebugInformation(
+        Current=0,
+        Max=0,
+        Runtime=""
+    )
+    DirectPlayDebugInformation = DirectPlayDebugInformation(
+        Current=0,
+        Max=0,
+        Runtime=""
+    )
+    DirectSoundDebugInformation = DirectSoundDebugInformation(
+        Current=0,
+        Max=0,
+        Runtime=""
+    )
+    DirectShowDebugInformation = DirectShowDebugInformation(
+        Current=0,
+        Max=0,
+        Runtime=""
+    )
 
 
     def model_dump(self) -> Dict[str, Any]:
@@ -168,14 +168,11 @@ class DirectXDebugLevels:
         :rtype: Dict[str, Any]
         """
         return {
-            "D3DDebugInformation": self.D3DDebugInformation.model_dump(),
-            "DirectDrawDebugInformation": self.DirectDrawDebugInformation.model_dump(),
-            "DirectInputDebugInformation": self.DirectInputDebugInformation.model_dump(),
-            "DirectMusicDebugInformation": self.DirectMusicDebugInformation.model_dump(),
-            "DirectPlayDebugInformation": self.DirectPlayDebugInformation.model_dump(),
-            "DirectSoundDebugInformation": self.DirectSoundDebugInformation.model_dump(),
-            "DirectShowDebugInformation": self.DirectShowDebugInformation.model_dump()
+            "D3DDebugInformation": D3DDebugInformation.model_dump(),
+            "DirectDrawDebugInformation": DirectDrawDebugInformation.model_dump(),
+            "DirectInputDebugInformation": DirectInputDebugInformation.model_dump(),
+            "DirectMusicDebugInformation": DirectMusicDebugInformation.model_dump(),
+            "DirectPlayDebugInformation": DirectPlayDebugInformation.model_dump(),
+            "DirectSoundDebugInformation": DirectSoundDebugInformation.model_dump(),
+            "DirectShowDebugInformation": DirectShowDebugInformation.model_dump()
         }
-    
-    def __repr__(self):
-        return f"DirectXDebugLevels(D3DDebugInformation({self.D3DDebugInformation}), DirectDrawDebugInformation({self.DirectDrawDebugInformation}), DirectInputDebugInformation({self.DirectInputDebugInformation}), DirectMusicDebugInformation({self.DirectMusicDebugInformation}), DirectPlayDebugInformation({self.DirectPlayDebugInformation}), DirectSoundDebugInformation({self.DirectSoundDebugInformation}), DirectShowDebugInformation({self.DirectShowDebugInformation}))"
