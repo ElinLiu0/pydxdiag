@@ -9,3 +9,4 @@ pydxdiag/schema/__pycache__/
 pydxdiag/schema/device/__pycache__/
 pydxdiag/schema/sz/__pycache__/
 .pypirc
+.mypy_cache/
