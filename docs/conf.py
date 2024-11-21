@@ -8,8 +8,6 @@
 import sys
 sys.path.insert(0, "..")
 
-import sphinx_book_theme
-
 project = 'pydxdiag'
 copyright = '2024, Elin Liu'
 author = 'Elin Liu'
@@ -31,5 +29,4 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'sphinx_book_theme'
-html_theme_path = [sphinx_book_theme.get_html_theme_path()]
 html_static_path = ['_static']
